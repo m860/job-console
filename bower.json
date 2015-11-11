@@ -1,0 +1,25 @@
+{
+  "name": "job_watcher",
+  "version": "0.0.0",
+  "homepage": "https://github.com/m860/pull-data",
+  "authors": [
+    "jean <mahai_1986@126.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/js/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "classnames": "~2.2.0",
+    "font-awesome": "fontawesome#~4.4.0",
+    "normalize-css": "normalize.css#~3.0.3",
+    "react": "~0.14.0",
+    "requirejs": "~2.1.20"
+  }
+}
