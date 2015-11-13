@@ -24,6 +24,7 @@
     "express": "^4.13.3",
     "express-handlebars": "^2.0.1",
     "guid": "0.0.12",
+    "log4js": "^0.6.27",
     "node-schedule": "^0.2.9",
     "q": "^1.4.1",
     "require-dir": "^0.3.0",
