@@ -3,11 +3,11 @@
  */
 module.exports = {
     port: 3001,
-    log4js:{
-        "level": "DEBUG",
-        "appenders": [
+    log4js: {
+        level: "DEBUG",
+        appenders: [
             {
-                "type": "console"
+                type: "console"
             }
         ]
     }
