@@ -18,15 +18,23 @@ gulp.task("less", function () {
 });
 
 gulp.task("browserify", function () {
+    //compile react components
     return gulp.src(__dirname + "/react/**/*.jsx").pipe(babel())
         .pipe(gulp.dest(__dirname + "/react"))
         .on("end", function () {
-            return gulp.src(__dirname + "/public/js/test/**/*.jsx")
-                .pipe(babel())
-                .pipe(browserify({
-                    ignore: ["react", "react-dom"]
-                }))
-                .pipe(gulp.dest(__dirname + "/public/js/browserify"));
+
+            return merge(
+                //package react
+                gulp.src(__dirname + "/react/main.js").pipe(browserify()).pipe(gulp.dest(__dirname + "/public/js/browserify"))
+                //package pages
+                , gulp.src(__dirname + "/public/js/test/**/*.jsx")
+                    .pipe(babel())
+                    .pipe(browserify({
+                        ignore: ["react", "react-dom"]
+                    }))
+                    .pipe(gulp.dest(__dirname + "/public/js/browserify"))
+            )
+
         });
 });
 
