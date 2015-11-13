@@ -11,6 +11,7 @@
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-babel": "^5.3.0",
+    "gulp-browserify": "^0.5.1",
     "gulp-less": "^3.0.3",
     "gulp-livereload": "^3.8.1",
     "gulp-nodemon": "^2.0.4",
