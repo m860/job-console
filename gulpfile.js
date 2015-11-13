@@ -23,7 +23,9 @@ gulp.task("browserify", function () {
         .on("end", function () {
             return gulp.src(__dirname + "/public/js/test/**/*.jsx")
                 .pipe(babel())
-                .pipe(browserify())
+                .pipe(browserify({
+                    ignore: ["react", "react-dom"]
+                }))
                 .pipe(gulp.dest(__dirname + "/public/js/browserify"));
         });
 });
