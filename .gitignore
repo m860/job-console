@@ -5,3 +5,5 @@ public/js/components
 public/js/pages
 logs
 .idea
+public/js/browserify
+react/*.js
