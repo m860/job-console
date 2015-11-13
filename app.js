@@ -33,5 +33,5 @@ for (var handler in ioHandlers) {
 
 //start
 http.listen(config.port, function () {
-    console.log("app is running ...");
+    console.log("app is running on " + config.port + "...");
 });

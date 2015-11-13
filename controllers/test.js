@@ -8,6 +8,11 @@ module.exports = function (app) {
     app.use('/test', router);
 };
 
-router.get("/",function(req,res,next){
+router.get("/", function (req, res, next) {
     res.render("pages/test");
+});
+router.get("/browserify", function (req, res, next) {
+    res.render("pages/browserify_test", {
+        layout: "browserify"
+    });
 });

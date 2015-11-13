@@ -4,6 +4,7 @@ var livereload = require("gulp-livereload");
 var merge = require('merge-stream');
 var nodemon = require('gulp-nodemon');
 var less = require("gulp-less");
+var browserify = require("gulp-browserify");
 
 gulp.task("compile-jsx", function (callback) {
     return merge(
@@ -14,6 +15,17 @@ gulp.task("compile-jsx", function (callback) {
 
 gulp.task("less", function () {
     return gulp.src(__dirname + "/public/less/**/*.less").pipe(less()).pipe(gulp.dest(__dirname + "/public/css"));
+});
+
+gulp.task("browserify", function () {
+    return gulp.src(__dirname + "/react/**/*.jsx").pipe(babel())
+        .pipe(gulp.dest(__dirname + "/react"))
+        .on("end", function () {
+            return gulp.src(__dirname + "/public/js/test/**/*.jsx")
+                .pipe(babel())
+                .pipe(browserify())
+                .pipe(gulp.dest(__dirname + "/public/js/browserify"));
+        });
 });
 
 gulp.task("watching", function (callback) {
@@ -50,4 +62,4 @@ gulp.task("watching", function (callback) {
     });
 });
 
-gulp.task("default", ["compile-jsx", "less", "watching"]);
+gulp.task("default", ["compile-jsx", "less", "browserify", "watching"]);
