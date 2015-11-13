@@ -4,7 +4,7 @@
 
 var messageType = require("../enums/message_type");
 var role = require("../enums/role");
-var helper = require("../libs/helper");
+var helper = require("../libs/common/helper");
 var fs = require("fs");
 var path = require("path");
 var equal = require("deep-equal");
