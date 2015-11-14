@@ -38,7 +38,13 @@ gulp.task("browserify", function () {
         });
 });
 
-gulp.task("watching", function (callback) {
+gulp.task("build-react", function () {
+    return gulp.src(__dirname + "/react/**/*.jsx")
+        .pipe(babel())
+        .pipe(gulp.dest(__dirname + "/react"));
+});
+
+gulp.task("watching", ["build-react", "less"], function (callback) {
 
     livereload.listen();
 
@@ -70,6 +76,11 @@ gulp.task("watching", function (callback) {
     gulp.watch(__dirname + "/views/**/*.handlebars", function (event) {
         gulp.src(event.path).pipe(livereload());
     });
+
+    //watch react jsx
+    gulp.watch(__dirname + "/react/**/*.jsx", function (event) {
+        return gulp.src(event.path).pipe(babel()).pipe(gulp.dest(__dirname + "/react"));
+    });
 });
 
-gulp.task("default", ["compile-jsx", "less", "browserify", "watching"]);
+gulp.task("default", ["watching"]);
