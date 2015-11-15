@@ -18,24 +18,30 @@ gulp.task("less", function () {
 });
 
 gulp.task("browserify", function () {
-    //compile react components
-    return gulp.src(__dirname + "/react/**/*.jsx").pipe(babel())
-        .pipe(gulp.dest(__dirname + "/react"))
-        .on("end", function () {
 
-            return merge(
-                //package react
-                gulp.src(__dirname + "/react/main.js").pipe(browserify()).pipe(gulp.dest(__dirname + "/public/js/browserify"))
-                //package pages
-                , gulp.src(__dirname + "/public/js/test/**/*.jsx")
-                    .pipe(babel())
-                    .pipe(browserify({
-                        ignore: ["react", "react-dom"]
-                    }))
-                    .pipe(gulp.dest(__dirname + "/public/js/browserify"))
-            )
+    return merge(
+        gulp.src(__dirname + "/public/js/test/**/*.jsx")
+            .pipe(babel())
+            .pipe(browserify({
+                nobuiltins:"events",
+                shim: {
+                    "react": {
+                        path: __dirname + "/public/js/libs/react/react.js",
+                        exports: "React"
+                    }/*,
+                     "react-dom": {
+                     path: __dirname + "/public/js/libs/react/react-dom.js",
+                     exports: "ReactDom"
+                     }*/
+                }
+            }))
+            .on('prebundle', function (bundle) {
+                bundle.external('react');
+                //bundle.external('react-dom');
+            })
+            .pipe(gulp.dest(__dirname + "/public/js/browserify"))
+    );
 
-        });
 });
 
 gulp.task("build-react", function () {
@@ -51,23 +57,23 @@ gulp.task("watching", ["build-react", "less"], function (callback) {
     nodemon({
         script: 'app.js'
         , ext: 'js'
-        , ignore: ["node_modules/**", "public/**", "views/**"]
+        , ignore: ["node_modules/**", "public/**", "views/**", "react/**/*.*"]
         , env: {'NODE_ENV': 'development'}
     });
 
-    gulp.watch(__dirname + "/public/js/jsx_components/**/*.jsx", function (event) {
-        gulp.src(event.path)
-            .pipe(babel())
-            .pipe(gulp.dest(__dirname + "/public/js/components"))
-            .pipe(livereload());
-    });
+    //gulp.watch(__dirname + "/public/js/jsx_components/**/*.jsx", function (event) {
+    //    gulp.src(event.path)
+    //        .pipe(babel())
+    //        .pipe(gulp.dest(__dirname + "/public/js/components"))
+    //        .pipe(livereload());
+    //});
 
-    gulp.watch(__dirname + "/public/js/jsx_pages/**/*.jsx", function (event) {
-        gulp.src(event.path)
-            .pipe(babel())
-            .pipe(gulp.dest(__dirname + "/public/js/pages"))
-            .pipe(livereload());
-    });
+    //gulp.watch(__dirname + "/public/js/jsx_pages/**/*.jsx", function (event) {
+    //    gulp.src(event.path)
+    //        .pipe(babel())
+    //        .pipe(gulp.dest(__dirname + "/public/js/pages"))
+    //        .pipe(livereload());
+    //});
 
     gulp.watch(__dirname + "/public/less/**/*.less", function (event) {
         gulp.src(event.path).pipe(less()).pipe(gulp.dest(__dirname + "/public/css")).pipe(livereload());
@@ -79,7 +85,10 @@ gulp.task("watching", ["build-react", "less"], function (callback) {
 
     //watch react jsx
     gulp.watch(__dirname + "/react/**/*.jsx", function (event) {
-        return gulp.src(event.path).pipe(babel()).pipe(gulp.dest(__dirname + "/react"));
+        console.log(event.path)
+        gulp.src(event.path)
+            .pipe(babel())
+            .pipe(gulp.dest(__dirname + "/react"));
     });
 });
 

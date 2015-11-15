@@ -3,13 +3,14 @@
  */
 //var React = require("react");
 //var ReactDom = require("react-dom");
-require("../react/main");
+var React = require("react");
+var ReactDom = require("react-dom");
 
-module.exports = global.React.createClass({
+module.exports = React.createClass({
     displayName: "Hello",
     render: function () {
         return (
-            <div>hello world !</div>
+            <div>hello world ! 456</div>
         );
     }
 });

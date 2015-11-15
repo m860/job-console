@@ -1,8 +1,11 @@
 /**
  * Created by hai.ma on 2015/11/13 0013.
  */
-var env = process.env.NODE_ENV || "develop";
+var env = process.env.NODE_ENV || "development";
 
 var util = require("util");
+var path = require("path");
 
-module.exports = require(util.format("../../config/%s", env));
+var configPath = path.normalize(__dirname + util.format("../../../config/%s", env));
+
+module.exports = require(configPath);
