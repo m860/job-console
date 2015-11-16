@@ -12,6 +12,8 @@ var glob = require("glob-all");
 
 var path = require("path");
 
+var config = require(__dirname + "/browserify.json");
+
 //gulp.task("compile-jsx", function (callback) {
 //    return merge(
 //        gulp.src(__dirname + "/public/js/jsx_components/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/public/js/components"))
@@ -81,14 +83,13 @@ gulp.task("babel", function () {
 //
 gulp.task("browserify", ["babel", "browserify-libs"], function (cb) {
 
-    var externals = ["react", "react-dom"];
     var files = glob.sync(__dirname + "/libs/common/pages/**/*.js");
     files.map(function (file) {
         var b = browserify(file, {
             insertGlobals: false
-            , paths: [__dirname + "/libs"]
+            //, paths: [__dirname + "/libs"]
         });
-        externals.forEach(function (ex) {
+        config.external.forEach(function (ex) {
             b.external(ex);
         });
         return b.bundle().pipe(source(path.basename(file))).pipe(gulp.dest(__dirname + "/public/js/browserify/pages"));
@@ -99,7 +100,7 @@ gulp.task("browserify", ["babel", "browserify-libs"], function (cb) {
 
 gulp.task("browserify-libs", function () {
     var b = browserify();
-    ["react", "react-dom"].forEach(function (lib) {
+    config.external.forEach(function (lib) {
         b.require(lib);
     });
 

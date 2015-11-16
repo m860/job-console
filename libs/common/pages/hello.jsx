@@ -3,7 +3,7 @@
  */
 var React=require("react");
 var ReactDom=require("react-dom");
-var Hello=require("./../components/hello_world");
+var Hello=require("../../components/hello_world");
 
 ReactDom.render(
     <Hello/>
