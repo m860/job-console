@@ -4,16 +4,18 @@
 var express = require('express');
 var exphbs = require('express-handlebars');
 var requireDir = require('require-dir');
-
 var app = express();
-
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
+var util = require("util");
+var env = process.env.NODE_ENV || "develop";
+
+var config = require("./libs/common/config");
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(express.static(__dirname + "/public", {
-    maxAge: global.ENV_DEVELOPMENT ? 0 : 30 * 24 * 3600 * 1000,
+    maxAge: env === "production" ? 0 : 30 * 24 * 3600 * 1000,
     etag: false
 }));
 
@@ -24,12 +26,12 @@ for (var controller in controllers) {
 }
 
 //register io handler
-var ioHandlers = requireDir("./io_handlers");
+var ioHandlers = requireDir("./socket_handlers");
 for (var handler in ioHandlers) {
     ioHandlers[handler](io);
 }
 
 //start
-http.listen(3001, function () {
-    console.log("app is running ...");
+http.listen(config.port, function () {
+    console.log("app is running on " + config.port + "...");
 });
