@@ -10,7 +10,7 @@ var io = require("socket.io")(http);
 var util = require("util");
 var env = process.env.NODE_ENV || "develop";
 
-var config = require("./libs/common/config");
+var config = require("./libs/backend/config");
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');

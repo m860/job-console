@@ -6,5 +6,5 @@ public/js/pages
 logs
 .idea
 public/js/browserify
-react/*.js
-public/js/test/**/*.js
+libs/common/pages/**/*.js
+libs/common/components/**/*.js
