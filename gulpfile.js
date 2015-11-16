@@ -4,7 +4,13 @@ var livereload = require("gulp-livereload");
 var merge = require('merge-stream');
 var nodemon = require('gulp-nodemon');
 var less = require("gulp-less");
-var browserify = require("gulp-browserify");
+
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+
+var glob = require("glob-all");
+
+var path = require("path");
 
 gulp.task("compile-jsx", function (callback) {
     return merge(
@@ -17,32 +23,6 @@ gulp.task("less", function () {
     return gulp.src(__dirname + "/public/less/**/*.less").pipe(less()).pipe(gulp.dest(__dirname + "/public/css"));
 });
 
-gulp.task("browserify", function () {
-
-    return merge(
-        gulp.src(__dirname + "/public/js/test/**/*.jsx")
-            .pipe(babel())
-            .pipe(browserify({
-                nobuiltins:"events",
-                shim: {
-                    "react": {
-                        path: __dirname + "/public/js/libs/react/react.js",
-                        exports: "React"
-                    }/*,
-                     "react-dom": {
-                     path: __dirname + "/public/js/libs/react/react-dom.js",
-                     exports: "ReactDom"
-                     }*/
-                }
-            }))
-            .on('prebundle', function (bundle) {
-                bundle.external('react');
-                //bundle.external('react-dom');
-            })
-            .pipe(gulp.dest(__dirname + "/public/js/browserify"))
-    );
-
-});
 
 gulp.task("build-react", function () {
     return gulp.src(__dirname + "/react/**/*.jsx")
@@ -90,6 +70,37 @@ gulp.task("watching", ["build-react", "less"], function (callback) {
             .pipe(babel())
             .pipe(gulp.dest(__dirname + "/react"));
     });
+});
+
+gulp.task("babel", function () {
+    return merge([
+        gulp.src(__dirname + "/react/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/react"))
+        , gulp.src(__dirname + "/public/js/test/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/public/js/test"))
+    ])
+});
+//
+gulp.task("browserify", ["babel", "browserify-libs"], function (cb) {
+
+    var externals = ["react", "react-dom"];
+    var files = glob.sync(__dirname + "/public/js/test/**/*.js");
+    files.map(function (file) {
+        var b = browserify(file);
+        externals.forEach(function (ex) {
+            b.external(ex);
+        });
+        return b.bundle().pipe(source(path.basename(file))).pipe(gulp.dest(__dirname + "/public/js/browserify"));
+    });
+    return cb();
+
+});
+
+gulp.task("browserify-libs", function () {
+    var b = browserify();
+    ["react", "react-dom"].forEach(function (lib) {
+        b.require(lib);
+    });
+
+    return b.bundle().pipe(source("lib.js")).pipe(gulp.dest(__dirname + "/public/js/browserify"));
 });
 
 gulp.task("default", ["watching"]);
