@@ -83,13 +83,16 @@ gulp.task("gen-libs", function () {
 //
 gulp.task("browserify", ["gen-libs", "browserify-libs"], function (cb) {
 
-    var files = glob.sync(__dirname + "/node_modules/gen/pages/**/*.js");
+    var files = glob.sync(__dirname + "/node_modules/libs/common/pages/**/*.js");
     files.map(function (file) {
         var b = browserify(file, {
             insertGlobals: false
         });
         config.external.forEach(function (ex) {
             b.external(ex);
+        });
+        config.ignore.forEach(function (ig) {
+            b.ignore(ig);
         });
         return b.bundle().pipe(source(path.basename(file))).pipe(gulp.dest(__dirname + "/public/js/browserify/pages"));
     });

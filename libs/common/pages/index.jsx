@@ -3,7 +3,7 @@
  */
 var React = require("react");
 var ReactDom = require("react-dom");
-var header = require("gen/components/header");
+var header = require("libs/common/components/header");
 
 ReactDom.render(
     <header/>

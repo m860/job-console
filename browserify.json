@@ -4,5 +4,8 @@
     "react-dom",
     "classnames",
     "socket.io"
+  ],
+  "ignore": [
+    "socket.io"
   ]
 }

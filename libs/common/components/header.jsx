@@ -6,18 +6,18 @@
 var React = require("react");
 var ReactDom = require("react-dom");
 var classNames = require("classnames");
-var ws=require("libs/common/web_socket");
+//var ws=require("libs/common/web_socket");
 
 module.exports = React.createClass({
     displayName: "Header",
     componentWillUnmount: function () {
-        ws.off("session_change", this.$sessionChange);
+        //ws.off("session_change", this.$sessionChange);
     },
     $sessionChange: function (data) {
         this.setState(data);
     },
     getInitialState: function () {
-        ws.on("session_change", this.$sessionChange);
+        //ws.on("session_change", this.$sessionChange);
         return {
             id: "",
             count: 0
