@@ -14,25 +14,11 @@ var path = require("path");
 
 var config = require(__dirname + "/browserify.json");
 
-//gulp.task("compile-jsx", function (callback) {
-//    return merge(
-//        gulp.src(__dirname + "/public/js/jsx_components/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/public/js/components"))
-//        , gulp.src(__dirname + "/public/js/jsx_pages/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/public/js/pages"))
-//    );
-//});
-
 gulp.task("less", function () {
     return gulp.src(__dirname + "/public/less/**/*.less").pipe(less()).pipe(gulp.dest(__dirname + "/public/css"));
 });
 
-
-//gulp.task("build-react", function () {
-//    return gulp.src(__dirname + "/react/**/*.jsx")
-//        .pipe(babel())
-//        .pipe(gulp.dest(__dirname + "/react"));
-//});
-
-gulp.task("watching", ["less"], function (callback) {
+gulp.task("watching", ["browserify", "less"], function (callback) {
 
     livereload.listen();
 
@@ -43,34 +29,23 @@ gulp.task("watching", ["less"], function (callback) {
         , env: {'NODE_ENV': 'development'}
     });
 
-    //gulp.watch(__dirname + "/public/js/jsx_components/**/*.jsx", function (event) {
-    //    gulp.src(event.path)
-    //        .pipe(babel())
-    //        .pipe(gulp.dest(__dirname + "/public/js/components"))
-    //        .pipe(livereload());
-    //});
-
-    //gulp.watch(__dirname + "/public/js/jsx_pages/**/*.jsx", function (event) {
-    //    gulp.src(event.path)
-    //        .pipe(babel())
-    //        .pipe(gulp.dest(__dirname + "/public/js/pages"))
-    //        .pipe(livereload());
-    //});
-
+    //watch less
     gulp.watch(__dirname + "/public/less/**/*.less", function (event) {
         gulp.src(event.path).pipe(less()).pipe(gulp.dest(__dirname + "/public/css")).pipe(livereload());
     });
 
+    //watch .handlebars
     gulp.watch(__dirname + "/views/**/*.handlebars", function (event) {
         gulp.src(event.path).pipe(livereload());
     });
 
-    //watch react jsx
-    //gulp.watch(__dirname + "/react/**/*.jsx", function (event) {
-    //    gulp.src(event.path)
-    //        .pipe(babel())
-    //        .pipe(gulp.dest(__dirname + "/react"));
-    //});
+    //watch libs
+    gulp.watch(__dirname + "/libs/**/*.js", function (event) {
+        gulp.src(event.path).pipe(gulp.dest(__dirname + "/node_moudles/libs"));
+    });
+    gulp.watch(__dirname + "/libs/**/*.jsx", function (event) {
+        gulp.src(event.path).pipe(babel()).pipe(gulp.dest(__dirname + "/node_moudles/libs"));
+    });
 });
 
 gulp.task("gen-libs", function () {
