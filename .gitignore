@@ -1,10 +1,5 @@
-public/js/libs
 public/css
 node_modules
-public/js/components
-public/js/pages
 logs
 .idea
 public/js/browserify
-libs/common/pages/**/*.js
-libs/common/components/**/*.js
