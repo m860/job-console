@@ -3,9 +3,8 @@
     "react",
     "react-dom",
     "classnames",
-    "socket.io"
+    "socket.io-client"
   ],
   "ignore": [
-    "socket.io"
   ]
 }
