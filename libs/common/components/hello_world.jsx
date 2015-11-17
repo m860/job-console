@@ -7,7 +7,7 @@ var React = require("react");
 var ReactDom = require("react-dom");
 
 module.exports = React.createClass({
-    displayName: "Hello",
+    displayName: "HelloWorld",
     render: function () {
         return (
             <div>hello world ! 456</div>

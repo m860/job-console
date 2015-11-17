@@ -1,6 +1,8 @@
 {
   "external": [
     "react",
-    "react-dom"
+    "react-dom",
+    "classnames",
+    "socket.io"
   ]
 }

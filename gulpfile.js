@@ -73,21 +73,20 @@ gulp.task("watching", ["less"], function (callback) {
     //});
 });
 
-gulp.task("babel", function () {
+gulp.task("gen-libs", function () {
     return merge([
-        gulp.src(__dirname + "/libs/common/components/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/libs/common/components"))
-        , gulp.src(__dirname + "/libs/common/pages/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/libs/common/pages"))
-        , gulp.src(__dirname + "/public/js/test/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/public/js/test"))
+        gulp.src(__dirname + "/libs/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/node_modules/libs"))
+        , gulp.src(__dirname + "/libs/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/node_modules/libs"))
+        , gulp.src(__dirname + "/libs/**/*.js").pipe(gulp.dest(__dirname + "/node_modules/libs"))
     ])
 });
 //
-gulp.task("browserify", ["babel", "browserify-libs"], function (cb) {
+gulp.task("browserify", ["gen-libs", "browserify-libs"], function (cb) {
 
-    var files = glob.sync(__dirname + "/libs/common/pages/**/*.js");
+    var files = glob.sync(__dirname + "/node_modules/gen/pages/**/*.js");
     files.map(function (file) {
         var b = browserify(file, {
             insertGlobals: false
-            //, paths: [__dirname + "/libs"]
         });
         config.external.forEach(function (ex) {
             b.external(ex);

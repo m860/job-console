@@ -20,13 +20,13 @@ app.use(express.static(__dirname + "/public", {
 }));
 
 //register controller
-var controllers = requireDir("./controllers");
+var controllers = requireDir("libs/controllers");
 for (var controller in controllers) {
     controllers[controller](app);
 }
 
 //register io handler
-var ioHandlers = requireDir("./socket_handlers");
+var ioHandlers = requireDir("libs/socket_handlers");
 for (var handler in ioHandlers) {
     ioHandlers[handler](io);
 }

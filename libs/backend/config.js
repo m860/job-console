@@ -6,6 +6,6 @@ var env = process.env.NODE_ENV || "development";
 var util = require("util");
 var path = require("path");
 
-var configPath = path.normalize(__dirname + util.format("../../../config/%s", env));
+//var configPath = path.normalize(__dirname + util.format("../../../config/%s", env));
 
-module.exports = require(configPath);
+module.exports = require("libs/config/"+env);

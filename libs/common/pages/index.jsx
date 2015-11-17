@@ -3,13 +3,9 @@
  */
 var React = require("react");
 var ReactDom = require("react-dom");
-var Hello = require("gen/components/hello_world");
-var Header = require("gen/components/header");
+var header = require("gen/components/header");
 
 ReactDom.render(
-    <div>
-        <Header/>
-        <Hello/>
-    </div>
+    <header/>
     , document.getElementById("view")
 );

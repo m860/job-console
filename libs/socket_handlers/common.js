@@ -2,7 +2,7 @@
  * Created by hai.ma on 2015/10/22 0022.
  */
 
-var messageType = require("../enums/message_type");
+var messageType = require("libs/enums/message_type");
 var guid = require("guid");
 var sessionCount = 0;
 module.exports = function (io) {
