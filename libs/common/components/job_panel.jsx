@@ -12,15 +12,15 @@ module.exports = React.createClass({
     displayName: "JobPanel",
     render: function () {
         return (
-            <div class={classNames("panel panel-default")}>
-                <div class={classNames("panel-heading clearfix")}>
+            <div className={classNames("panel panel-default")}>
+                <div className={classNames("panel-heading clearfix")}>
                     <span>Job List</span>
 
-                    <div class={classNames("pull-right")}>
-                        <button class={classNames("btn")}><i className={classNames("fa fa-upload")}></i> 上传</button>
+                    <div className={classNames("pull-right")}>
+                        <button className={classNames("btn")}><i className={classNames("fa fa-upload")}></i> 上传</button>
                     </div>
                 </div>
-                <div class={classNames("panel-body")}>
+                <div className={classNames("panel-body")}>
                     <JobList/>
                 </div>
             </div>
