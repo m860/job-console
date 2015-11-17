@@ -3,9 +3,15 @@
  */
 var React = require("react");
 var ReactDom = require("react-dom");
-var header = require("libs/common/components/header");
+var Header = require("libs/common/components/header");
+var JobPanel = require("libs/common/components/job_panel");
 
 ReactDom.render(
-    <header/>
+    <div>
+        <Header/>
+        <section>
+            <JobPanel/>
+        </section>
+    </div>
     , document.getElementById("view")
 );

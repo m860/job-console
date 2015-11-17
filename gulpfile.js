@@ -41,10 +41,14 @@ gulp.task("watching", ["browserify", "less"], function (callback) {
 
     //watch libs
     gulp.watch(__dirname + "/libs/**/*.js", function (event) {
-        gulp.src(event.path).pipe(gulp.dest(__dirname + "/node_moudles/libs"));
+        gulp.src(event.path).pipe(gulp.dest(__dirname + "/node_moudles/libs")).on("end", function () {
+            gulp.run("browserify");
+        });
     });
     gulp.watch(__dirname + "/libs/**/*.jsx", function (event) {
-        gulp.src(event.path).pipe(babel()).pipe(gulp.dest(__dirname + "/node_moudles/libs"));
+        gulp.src(event.path).pipe(babel()).pipe(gulp.dest(__dirname + "/node_moudles/libs")).on("end", function () {
+            gulp.run("browserify");
+        });
     });
 });
 
@@ -56,7 +60,7 @@ gulp.task("gen-libs", function () {
     ])
 });
 //
-gulp.task("browserify", ["gen-libs", "browserify-libs"], function (cb) {
+gulp.task("browserify", function (cb) {
 
     var files = glob.sync(__dirname + "/node_modules/libs/common/pages/**/*.js");
     files.map(function (file) {
@@ -84,4 +88,6 @@ gulp.task("browserify-libs", function () {
     return b.bundle().pipe(source("lib.js")).pipe(gulp.dest(__dirname + "/public/js/browserify"));
 });
 
-gulp.task("default", ["watching"]);
+gulp.task("default", ["gen-libs", "browserify-libs"], function () {
+    gulp.run("watching");
+});

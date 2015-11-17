@@ -9,7 +9,7 @@ var ws = require("libs/frontend/web_socket");
 var classNames = require("classnames");
 
 
-module.exports = React.createClass({
+var JobListItem = React.createClass({
     displayName: "JobList",
     componentWillReceiveProps: function (props) {
         this.setState({
@@ -60,7 +60,7 @@ module.exports = React.createClass({
         );
     }
 });
-var JobList = React.createClass({
+module.exports = React.createClass({
     componentWillUnmount: function () {
         ws.off("job_monitor", this.$jobChange);
     },
