@@ -2,8 +2,8 @@
  * Created by hai.ma on 2015/10/22 0022.
  */
 
-var messageType = require("libs/enums/message_type");
-var role = require("libs/enums/role");
+var messageType = require("libs/common/enums/message_type");
+var role = require("libs/common/enums/role");
 var helper = require("libs/common/helper");
 var fs = require("fs");
 var path = require("path");
@@ -157,7 +157,7 @@ function buildJobsMessage() {
     return message;
 }
 function watchingJobs() {
-    var watchingPath = path.normalize(__dirname + "/../../jobs");
+    var watchingPath = path.normalize(__dirname + "/../../../jobs");
     console.log("begin watching [%s] ...", watchingPath);
     jobsWatcher = chokidar.watch(watchingPath);
     jobsWatcher.on("add", onNewJob);

@@ -8,9 +8,9 @@ var app = express();
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
 var util = require("util");
-var env = process.env.NODE_ENV || "develop";
+var env = process.env.NODE_ENV || "development";
 
-var config = require("./libs/backend/config");
+var config = require("libs/backend/config/" + env);
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -20,13 +20,13 @@ app.use(express.static(__dirname + "/public", {
 }));
 
 //register controller
-var controllers = requireDir("libs/controllers");
+var controllers = requireDir("libs/backend/controllers");
 for (var controller in controllers) {
     controllers[controller](app);
 }
 
 //register io handler
-var ioHandlers = requireDir("libs/socket_handlers");
+var ioHandlers = requireDir("libs/backend/socket_handlers");
 for (var handler in ioHandlers) {
     ioHandlers[handler](io);
 }
