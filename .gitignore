@@ -2,4 +2,4 @@ public/css
 node_modules
 logs
 .idea
-public/js/browserify
+public/js
