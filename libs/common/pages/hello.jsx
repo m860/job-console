@@ -5,11 +5,25 @@ var React = require("react");
 var ReactDom = require("react-dom");
 var Hello = require("libs/common/components/hello_world");
 var Header = require("libs/common/components/header");
+var helper = require("libs/common/helper");
 
-ReactDom.render(
-    <div>
-        <Header/>
-        <Hello/>
-    </div>
-    , document.getElementById("view")
-);
+var Page = React.createClass({
+    displayName: "Page",
+    render: function () {
+        return (
+            <div>
+                <Header/>
+                <Hello/>
+            </div>
+        );
+    }
+});
+if (helper.isNode()) {
+    module.exports = Page;
+}
+else {
+    ReactDom.render(
+        <Page/>
+        , document.getElementById("view")
+    );
+}

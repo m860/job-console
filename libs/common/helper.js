@@ -7,3 +7,15 @@ exports.formatTime = function (ms, fmt) {
     var hour = Math.floor(ms / (60 * 60 * 1000));
     return fmt.replace("$h", hour).replace("$m", minute).replace("$s", second);
 };
+
+exports.isNode = function () {
+    var result = true;
+    try {
+        if (window) {
+            result = false;
+        }
+    }
+    catch (ex) {
+    }
+    return result;
+};

@@ -14,6 +14,8 @@ var path = require("path");
 
 var config = require(__dirname + "/browserify.json");
 
+var mocha = require('gulp-mocha');
+
 gulp.task("less", function () {
     return gulp.src(__dirname + "/public/less/**/*.less").pipe(less()).pipe(gulp.dest(__dirname + "/public/css"));
 });
@@ -25,7 +27,7 @@ gulp.task("watching", ["browserify", "less"], function (callback) {
     nodemon({
         script: 'app.js'
         , ext: 'js'
-        , ignore: ["node_modules/**", "public/**", "views/**", "react/**/*.*"]
+        , ignore: ["node_modules/**", "public/**", "views/**", "react/**/*.*", "test/**", "gulpfile.js", "*.json"]
         , env: {'NODE_ENV': 'development'}
     });
 
@@ -41,15 +43,23 @@ gulp.task("watching", ["browserify", "less"], function (callback) {
 
     //watch libs
     gulp.watch(__dirname + "/libs/**/*.js", function (event) {
-        gulp.src(event.path).pipe(gulp.dest(__dirname + "/node_moudles/libs")).on("end", function () {
-            gulp.run("browserify");
-        });
+        gulp.run("browserify");
     });
     gulp.watch(__dirname + "/libs/**/*.jsx", function (event) {
-        gulp.src(event.path).pipe(babel()).pipe(gulp.dest(__dirname + "/node_moudles/libs")).on("end", function () {
-            gulp.run("browserify");
-        });
+        gulp.run("browserify");
     });
+
+});
+
+gulp.task("test", function () {
+    if (!global.watchTest) {
+        global.watchTest = gulp.watch(__dirname + "/test/**/*.js", function () {
+            setTimeout(function () {
+                gulp.run("test");
+            }, 1000);
+        });
+    }
+    return gulp.src(__dirname + "/test/**/*.js").pipe(mocha({reporter: 'spec'}));
 });
 
 gulp.task("gen-libs", function () {
@@ -60,7 +70,7 @@ gulp.task("gen-libs", function () {
     ])
 });
 //
-gulp.task("browserify", function (cb) {
+gulp.task("browserify", ["gen-libs"], function (cb) {
 
     var files = glob.sync(__dirname + "/node_modules/libs/common/pages/**/*.js");
     files.map(function (file) {
