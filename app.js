@@ -8,7 +8,7 @@ var app = express();
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
 var util = require("util");
-var env = process.env.NODE_ENV || "develop";
+var env = process.env.NODE_ENV || "development";
 
 var config = require("./libs/common/config");
 
