@@ -5,49 +5,89 @@ var merge = require('merge-stream');
 var nodemon = require('gulp-nodemon');
 var less = require("gulp-less");
 
-gulp.task("compile-jsx", function (callback) {
-    return merge(
-        gulp.src(__dirname + "/public/js/jsx_components/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/public/js/components"))
-        , gulp.src(__dirname + "/public/js/jsx_pages/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/public/js/pages"))
-    );
-});
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+
+var glob = require("glob-all");
+
+var path = require("path");
+
+var config = require(__dirname + "/browserify.json");
 
 gulp.task("less", function () {
     return gulp.src(__dirname + "/public/less/**/*.less").pipe(less()).pipe(gulp.dest(__dirname + "/public/css"));
 });
 
-gulp.task("watching", function (callback) {
+gulp.task("watching", ["browserify", "less"], function (callback) {
 
     livereload.listen();
 
     nodemon({
         script: 'app.js'
         , ext: 'js'
-        , ignore: ["node_modules/**", "public/**", "views/**"]
+        , ignore: ["node_modules/**", "public/**", "views/**", "react/**/*.*"]
         , env: {'NODE_ENV': 'development'}
     });
 
-    gulp.watch(__dirname + "/public/js/jsx_components/**/*.jsx", function (event) {
-        gulp.src(event.path)
-            .pipe(babel())
-            .pipe(gulp.dest(__dirname + "/public/js/components"))
-            .pipe(livereload());
-    });
-
-    gulp.watch(__dirname + "/public/js/jsx_pages/**/*.jsx", function (event) {
-        gulp.src(event.path)
-            .pipe(babel())
-            .pipe(gulp.dest(__dirname + "/public/js/pages"))
-            .pipe(livereload());
-    });
-
+    //watch less
     gulp.watch(__dirname + "/public/less/**/*.less", function (event) {
         gulp.src(event.path).pipe(less()).pipe(gulp.dest(__dirname + "/public/css")).pipe(livereload());
     });
 
+    //watch .handlebars
     gulp.watch(__dirname + "/views/**/*.handlebars", function (event) {
         gulp.src(event.path).pipe(livereload());
     });
+
+    //watch libs
+    gulp.watch(__dirname + "/libs/**/*.js", function (event) {
+        gulp.src(event.path).pipe(gulp.dest(__dirname + "/node_moudles/libs")).on("end", function () {
+            gulp.run("browserify");
+        });
+    });
+    gulp.watch(__dirname + "/libs/**/*.jsx", function (event) {
+        gulp.src(event.path).pipe(babel()).pipe(gulp.dest(__dirname + "/node_moudles/libs")).on("end", function () {
+            gulp.run("browserify");
+        });
+    });
 });
 
-gulp.task("default", ["compile-jsx", "less", "watching"]);
+gulp.task("gen-libs", function () {
+    return merge([
+        gulp.src(__dirname + "/libs/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/node_modules/libs"))
+        , gulp.src(__dirname + "/libs/**/*.jsx").pipe(babel()).pipe(gulp.dest(__dirname + "/node_modules/libs"))
+        , gulp.src(__dirname + "/libs/**/*.js").pipe(gulp.dest(__dirname + "/node_modules/libs"))
+    ])
+});
+//
+gulp.task("browserify", function (cb) {
+
+    var files = glob.sync(__dirname + "/node_modules/libs/common/pages/**/*.js");
+    files.map(function (file) {
+        var b = browserify(file, {
+            insertGlobals: false
+        });
+        config.external.forEach(function (ex) {
+            b.external(ex);
+        });
+        config.ignore.forEach(function (ig) {
+            b.ignore(ig);
+        });
+        return b.bundle().pipe(source(path.basename(file))).pipe(gulp.dest(__dirname + "/public/js/browserify/pages"));
+    });
+    return cb();
+
+});
+
+gulp.task("browserify-libs", function () {
+    var b = browserify();
+    config.external.forEach(function (lib) {
+        b.require(lib);
+    });
+
+    return b.bundle().pipe(source("lib.js")).pipe(gulp.dest(__dirname + "/public/js/browserify"));
+});
+
+gulp.task("default", ["gen-libs", "browserify-libs"], function () {
+    gulp.run("watching");
+});

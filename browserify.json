@@ -1,0 +1,10 @@
+{
+  "external": [
+    "react",
+    "react-dom",
+    "classnames",
+    "socket.io-client"
+  ],
+  "ignore": [
+  ]
+}
