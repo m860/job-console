@@ -54,7 +54,7 @@ gulp.task("watching", function (callback) {
 gulp.task("wrap-commonjs",function(){
     return gulp.src(__dirname+"/enums/**/*.js")
         .pipe(wrap('define(function(require,exports,module){\n\n<%=contents%>\n\n});'))
-        .pipe(gulp.dest(__dirname+"/public/js/dist"))
+        .pipe(gulp.dest(__dirname+"/public/js/enums"))
 });
 
 gulp.task("default", ["compile-jsx", "less", "watching"]);
