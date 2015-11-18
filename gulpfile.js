@@ -4,6 +4,7 @@ var livereload = require("gulp-livereload");
 var merge = require('merge-stream');
 var nodemon = require('gulp-nodemon');
 var less = require("gulp-less");
+var wrap=require("gulp-wrap");
 
 gulp.task("compile-jsx", function (callback) {
     return merge(
@@ -48,6 +49,12 @@ gulp.task("watching", function (callback) {
     gulp.watch(__dirname + "/views/**/*.handlebars", function (event) {
         gulp.src(event.path).pipe(livereload());
     });
+});
+
+gulp.task("wrap-commonjs",function(){
+    return gulp.src(__dirname+"/enums/**/*.js")
+        .pipe(wrap('define(function(require,exports,module){\n\n<%=contents%>\n\n});'))
+        .pipe(gulp.dest(__dirname+"/public/js/dist"))
 });
 
 gulp.task("default", ["compile-jsx", "less", "watching"]);

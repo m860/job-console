@@ -15,6 +15,7 @@
     "gulp-less": "^3.0.3",
     "gulp-livereload": "^3.8.1",
     "gulp-nodemon": "^2.0.4",
+    "gulp-wrap": "^0.11.0",
     "merge-stream": "^1.0.0"
   },
   "dependencies": {

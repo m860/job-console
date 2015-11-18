@@ -30,7 +30,6 @@ var ioHandlers = requireDir("./socket_handlers");
 for (var handler in ioHandlers) {
     ioHandlers[handler](io);
 }
-
 //start
 http.listen(config.port, function () {
     console.log("app is running ...");
