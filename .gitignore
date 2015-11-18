@@ -3,5 +3,6 @@ public/css
 node_modules
 public/js/components
 public/js/pages
+public/js/browserify
 logs
 .idea
