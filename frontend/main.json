@@ -1,0 +1,11 @@
+{
+  "baseUrl": "js",
+  "packages": [],
+  "paths": {
+    "jquery": "libs/jquery/dist/jquery",
+    "react": "libs/react/react",
+    "react-dom": "libs/react/react-dom",
+    "classnames": "libs/classnames/index",
+    "socket.io": "../../socket.io/socket.io.js"
+  }
+}
