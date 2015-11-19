@@ -50,7 +50,8 @@ gulp.task("gen-requirejs-main", function () {
 
     walker.on("file", function (root, stat, next) {
         if (isJS(stat.name)) {
-            mainConfig.paths[getFileName(stat.name)] = (root.replace(rootPath, "") + "/" + stat.name).replace("\\", "/").substring(1);
+            var name = getFileName(stat.name);
+            mainConfig.paths[name] = (root.replace(rootPath, "") + "/" + name).replace("\\", "/").substring(1);
         }
         next();
     });
