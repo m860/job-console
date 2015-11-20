@@ -5,7 +5,6 @@ var merge = require('merge-stream');
 var nodemon = require('gulp-nodemon');
 var less = require("gulp-less");
 var wrap = require("gulp-wrap");
-var handlebars = require('gulp-compile-handlebars');
 var rename = require('gulp-rename');
 var fs = require("fs");
 var walk = require("walk");

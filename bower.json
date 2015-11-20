@@ -20,6 +20,7 @@
     "font-awesome": "fontawesome#~4.4.0",
     "normalize-css": "normalize.css#~3.0.3",
     "react": "~0.14.0",
-    "requirejs": "~2.1.20"
+    "requirejs": "~2.1.20",
+    "routie": "~0.3.2"
   }
 }
