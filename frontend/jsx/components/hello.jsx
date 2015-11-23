@@ -3,20 +3,14 @@
  */
 var React = require("react");
 var ReactDom = require("react-dom");
-var classNames = require("classnames");
-var ws = require("web_socket");
-var Header = require("components/header");
-var JobsPanel = require("components/jobs_panel");
 
 module.exports = React.createClass({
-    displayName: "Index",
+    displayName: "Hello",
     render: function () {
         return (
             <div>
-                <Header/>
-                <JobsPanel/>
+                Hello!
             </div>
         );
     }
 });
-
