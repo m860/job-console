@@ -16,7 +16,7 @@ function fetchData(ops) {
 
 
 module.exports = {
-    name: "fetch stock data",
+    name: "[Yahoo-finance]",
     callback: function () {
         return fetchData({
             symbol: 'AAPL',
