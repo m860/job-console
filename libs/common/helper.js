@@ -7,3 +7,12 @@ exports.formatTime = function (ms, fmt) {
     var hour = Math.floor(ms / (60 * 60 * 1000));
     return fmt.replace("$h", hour).replace("$m", minute).replace("$s", second);
 };
+
+exports.sendMessage = function (socket, messageType, data, isAll) {
+    if (socket && messageType) {
+        socket.emit(messageType, data);
+        if (isAll) {
+            socket.broadcast.emit(messageType, data);
+        }
+    }
+};
