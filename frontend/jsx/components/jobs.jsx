@@ -15,10 +15,7 @@ var JobListItem = React.createClass({
         });
     },
     $sendDirective: function (method) {
-        ws.emit("job_directive", {
-            name: method,
-            args: [this.state.data.fileName]
-        });
+        ws.$execJob(method,this.state.data.fileName);
     },
     propTypes: {
         data: React.PropTypes.object.isRequired

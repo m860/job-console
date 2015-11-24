@@ -16,12 +16,13 @@ function fetchData(ops) {
 
 
 module.exports = {
-    name: "[Yahoo-finance]",
+    name: "[Yahoo-finance] snapshot",
     callback: function () {
         return fetchData({
-            symbol: 'AAPL',
-            from: '2012-01-01',
-            to: '2012-12-31'
+            //symbol: '600000.SS',
+            symbol: '000861.SZ',
+            from: '2015-01-01',
+            to: '2015-9-31'
         }).then(function(quotes){
             console.log(quotes);
         });
