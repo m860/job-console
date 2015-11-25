@@ -5,6 +5,18 @@ require("routie");
 var React = require("react");
 var ReactDom = require("react-dom");
 var view = document.getElementById("view");
+
+var Root = React.createClass({
+    displayName: "Root",
+    render: function () {
+        return (
+            <div>
+                {this.props.children}
+            </div>
+        );
+    }
+});
+
 routie('*', function (hash) {
 
     var path = hash;
@@ -19,7 +31,9 @@ routie('*', function (hash) {
 
     require([pagePath], function (Page) {
         ReactDom.render(
-            <Page/>
+            <Root>
+                <Page/>
+            </Root>
             , view
         );
     });
