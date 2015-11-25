@@ -4,5 +4,5 @@
 var nedb = require("nedb");
 
 module.exports = function (tableName) {
-    return new nedb({filename: __dirname + "/../../../data/" + tableName, autoload: true});
+    return new nedb({filename: __dirname + "/../../data/" + tableName, autoload: true});
 };

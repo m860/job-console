@@ -36,7 +36,27 @@ exports.fetchAllStocks = function () {
     return request({
         uri: "http://ctxalgo.com/api/stocks"
         , json: true
-    }).then(function(data){
-        console.log(data);
+    }).then(function (data) {
+        function toYahooSymbol(code) {
+            if (/^sh[0-9]*$/i.test(code)) {
+                return code.replace("sh", "") + ".SS";
+            }
+            else if (/^sz[0-9]*$/i.test(code)) {
+                return code.replace("sz", "") + ".SZ";
+            }
+            else {
+                return code;
+            }
+        }
+
+        var result = [];
+        for (var code in data) {
+            result.push({
+                symbol: toYahooSymbol(code)
+                , name: data[code]
+            });
+        }
+
+        return result;
     });
 };

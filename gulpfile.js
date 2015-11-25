@@ -8,6 +8,7 @@ var wrap = require("gulp-wrap");
 var rename = require('gulp-rename');
 var fs = require("fs");
 var walk = require("walk");
+var mocha = require('gulp-mocha');
 
 var requirejsWraper = "define(function(require,exports,module){\n\n<%=contents%>\n\n});";
 
@@ -79,7 +80,7 @@ gulp.task("watching", function (callback) {
     nodemon({
         script: 'app.js'
         , ext: 'js'
-        , ignore: ["node_modules/**", "public/**", "views/**"]
+        , ignore: ["node_modules/**", "public/**", "views/**", "gulpfile.js", "test/**/*.js"]
         , env: {'NODE_ENV': 'development'}
     });
 
@@ -113,6 +114,17 @@ gulp.task("watching", function (callback) {
     });
 
 
+});
+
+gulp.task("test", function () {
+    if (!global.watchTest) {
+        global.watchTest = gulp.watch(__dirname + "/test/**/*.js", function () {
+            setTimeout(function () {
+                gulp.run("test");
+            }, 1000);
+        });
+    }
+    return gulp.src(__dirname + "/test/**/*.js").pipe(mocha({reporter: 'spec'}));
 });
 
 gulp.task("default", ["compile-jsx", "gen-requirejs-main", "gen-js", "less", "watching"]);
