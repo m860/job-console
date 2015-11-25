@@ -16,7 +16,11 @@ module.exports = React.createClass({
         return (
             <section>
                 <Panel>
-                    <PanelHeading title="Jobs"/>
+                    <PanelHeading title="Jobs">
+                        <button className={classNames("pull-right btn")}><i className={classNames("fa fa-upload")}></i>
+                            Upload Job
+                        </button>
+                    </PanelHeading>
                     <PanelBody>
                         <Jobs/>
                     </PanelBody>

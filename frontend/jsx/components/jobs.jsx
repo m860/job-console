@@ -53,6 +53,7 @@ var JobListItem = React.createClass({
                         className={classNames("btn btn-default",{"hide":this.state.data.role===1 || this.state.data.status===0})}
                         onClick={this.$sendDirective.bind(this,"stop")}><i className={classNames("fa fa-stop")}></i>
                     </button>
+                    <button className={classNames("btn btn-default")}><i className={classNames("fa fa-trash")}></i></button>
                 </td>
             </tr>
         );
