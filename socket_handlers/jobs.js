@@ -79,7 +79,7 @@ function initJob(jobConfig) {
         jobConfig.start = function () {
             var beginDate = Date.now();
             jobConfig.status = 1;
-            var promise = jobConfig.callback();
+            var promise = jobConfig.callback(socket);
 
             function done() {
                 console.log(helper.formatTime(Date.now() - beginDate, "execution time : $h:$m:$s"));

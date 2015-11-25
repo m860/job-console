@@ -8,6 +8,11 @@ module.exports = function (app) {
     app.use('/', router);
 };
 
-router.get("/",function(req,res,next){
+router.get("/", function (req, res, next) {
     res.render("pages/index");
+});
+
+router.post("/upload", function (req, res, next) {
+    console.log(req.file, req.files);
+    res.send("");
 });

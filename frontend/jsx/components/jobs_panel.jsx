@@ -10,6 +10,8 @@ var PanelHeading = require("bootstrap/panel_heading");
 var PanelBody = require("bootstrap/panel_body");
 var Jobs = require("components/jobs");
 
+var helper=require("helper");
+
 module.exports = React.createClass({
     displayName: "JobsPanel",
     render: function () {

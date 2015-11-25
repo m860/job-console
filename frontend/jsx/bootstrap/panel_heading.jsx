@@ -7,6 +7,7 @@ var ReactDom = require("react-dom");
 var classNames = require("classnames");
 
 module.exports = React.createClass({
+    displayName: "PanelHeading",
     propTypes: {
         title: React.PropTypes.string
     },
