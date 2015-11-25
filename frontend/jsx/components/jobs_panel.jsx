@@ -14,12 +14,14 @@ module.exports = React.createClass({
     displayName: "JobsPanel",
     render: function () {
         return (
-            <Panel>
-                <PanelHeading title="Jobs"/>
-                <PanelBody>
-                    <Jobs/>
-                </PanelBody>
-            </Panel>
+            <section>
+                <Panel>
+                    <PanelHeading title="Jobs"/>
+                    <PanelBody>
+                        <Jobs/>
+                    </PanelBody>
+                </Panel>
+            </section>
         );
     }
 });
