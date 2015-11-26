@@ -74,7 +74,9 @@ gulp.task("less", function () {
 
 gulp.task("watching", function (callback) {
 
-    livereload.listen();
+    livereload.listen({
+        port:3009
+    });
 
     nodemon({
         script: 'app.js'
