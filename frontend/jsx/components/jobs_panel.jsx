@@ -10,16 +10,35 @@ var PanelHeading = require("bootstrap/panel_heading");
 var PanelBody = require("bootstrap/panel_body");
 var Jobs = require("components/jobs");
 
-var helper=require("helper");
+var helper = require("helper");
+var UploadJob = require("components/upload_job");
 
 module.exports = React.createClass({
     displayName: "JobsPanel",
+    componentWillUnmount: function () {
+        if (this._btnUpload) {
+            this._btnUpload.removeEventListener("click", this.$showUpload);
+        }
+    },
+    $showUpload: function () {
+        this.refs["uploadJob"].$show();
+    },
+    $hideUpload: function () {
+        this.refs["uploadJob"].$hide();
+    },
+    componentDidMount: function () {
+        if (!this._btnUpload) {
+            this._btnUpload = ReactDom.findDOMNode(this).querySelector("#btnUpload");
+        }
+        this._btnUpload.addEventListener("click", this.$showUpload);
+    },
     render: function () {
         return (
             <section>
                 <Panel>
                     <PanelHeading title="Jobs">
-                        <button className={classNames("pull-right btn")}><i className={classNames("fa fa-upload")}></i>
+                        <button id="btnUpload" className={classNames("pull-right btn")}><i
+                            className={classNames("fa fa-upload")}></i>
                             Upload Job
                         </button>
                     </PanelHeading>
@@ -27,6 +46,7 @@ module.exports = React.createClass({
                         <Jobs/>
                     </PanelBody>
                 </Panel>
+                <UploadJob ref="uploadJob"/>
             </section>
         );
     }

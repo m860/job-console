@@ -8,6 +8,7 @@ var ws = require("web_socket");
 var Header = require("components/header");
 var JobsPanel = require("components/jobs_panel");
 
+
 module.exports = React.createClass({
     displayName: "Index",
     render: function () {
