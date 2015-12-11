@@ -9,6 +9,9 @@ var Modal = require("bootstrap/modal");
 var ModalBody = require("bootstrap/modal_body");
 var ModalFooter = require("bootstrap/modal_footer");
 var TaskTrigger = require("components/task_trigger");
+var InputFile=require("bootstrap/input_file");
+
+var helper = require("helper");
 
 
 module.exports = React.createClass({
@@ -20,26 +23,37 @@ module.exports = React.createClass({
     $hide: function () {
         this.refs["modal"].$hide();
     },
-    $updateTrigger:function(newValue){
-        this.setState({trigger:newValue});
+    $updateTrigger: function (newValue) {
+        this.setState({trigger: newValue});
+    },
+    $submit: function () {
+        var fd = helper.cloneObject(this.state);
+        console.log(fd.file);
     },
     getInitialState: function () {
         return {
             name: "",
             trigger: {},
-            role: "",
+            role: 0,
             description: "",
             file: null
         };
     },
     render: function () {
-        var triggerLink={
-            value:this.state.trigger||{
-                hour:[],
-                minute:[],
-                second:[]
+        var triggerLink = {
+            value: this.state.trigger || {
+                hour: [],
+                minute: [],
+                second: []
             },
-            requestChange:this.$updateTrigger
+            requestChange: this.$updateTrigger
+        };
+        var fileLink = {
+            value: null,
+            requestChange: function (newValue) {
+                console.log("newValue:",newValue);
+                this.setState({file:newValue});
+            }.bind(this)
         };
         return (
             <Modal ref="modal" title="Upload Job">
@@ -68,14 +82,13 @@ module.exports = React.createClass({
                         </div>
                         <div className={classNames("form-group")}>
                             <label>File</label>
-                            <input type="file" className={classNames("form-control")}
-                                   valueLink={this.linkState("file")}/>
+                            <InputFile valueLink={fileLink}></InputFile>
                         </div>
                     </form>
                 </ModalBody>
                 <ModalFooter>
                     <button className={classNames("btn btn-default")} onClick={this.$hide}>Cancel</button>
-                    <button className={classNames("btn btn-primary")}>OK</button>
+                    <button className={classNames("btn btn-primary")} onClick={this.$submit}>OK</button>
                 </ModalFooter>
             </Modal>
         );

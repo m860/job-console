@@ -37,7 +37,7 @@ var Timer = React.createClass({
     },
     $getValue: function () {
         var result = {};
-        result[this.state.type] = this.state.values;
+        result["value"] = this.state.values;
         return result;
     },
     $triggerChange: function () {
@@ -82,7 +82,7 @@ var Timer = React.createClass({
                     {this.$getTitle()}</label>
                 <ul className={classNames("task-trigger-times")}>
                     {items}
-                    <li><input type="text" className={classNames("form-control")} onKeyDown={this.$addValue}/>
+                    <li><input type="text" placeholder="please enter add" className={classNames("form-control")} onKeyDown={this.$addValue}/>
                     </li>
                 </ul>
             </div>
@@ -94,22 +94,20 @@ module.exports = React.createClass({
     displayName: "TaskTrigger",
     $getValue: function () {
         var result = {
-            hour: this.refs["hour"].$getValue().hour
-            , minute: this.refs["minute"].$getValue().minute
-            , second: this.refs["second"].$getValue().second
+            hour: this.refs["hour"].$getValue().value
+            , minute: this.refs["minute"].$getValue().value
+            , second: this.refs["second"].$getValue().value
         };
         return result;
     },
-    $getValueLink: function (props) {
-        console.log(props);
-        return {
-            value: props.valueLink.value,
-            requestChange: props.valueLink.requestChange
-        };
-    },
+    //$getValueLink: function (props) {
+    //    return {
+    //        value: props.valueLink.value,
+    //        requestChange: props.valueLink.requestChange
+    //    };
+    //},
     $onTimerChange: function () {
-        var valueLink = this.$getValueLink(this.props);
-        valueLink.requestChange(this.$getValue());
+        this.props.valueLink.requestChange(this.$getValue());
     },
     render: function () {
         return (
