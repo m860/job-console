@@ -186,10 +186,12 @@ watchingJobs();
 module.exports = function (io) {
     io.on("connect", function (currentSocket) {
         socket = currentSocket;
-        currentSocket.emit(messageType.JobMonitor, buildJobsMessage());
         currentSocket.on(messageType.JobDirective, handleJobDirective);
         currentSocket.on("disconnect", function () {
             currentSocket.removeListener(messageType.JobDirective, handleJobDirective);
         });
+        setTimeout(function(){
+            currentSocket.emit(messageType.JobMonitor, buildJobsMessage());
+        },1000);
     });
 };

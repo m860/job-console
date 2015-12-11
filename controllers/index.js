@@ -9,7 +9,6 @@ var uploadStorage = multer.diskStorage({
         cb(null, __dirname + "/../jobs/");
     },
     filename: function (req, file, cb) {
-        console.log(file);
         cb(null, file.originalname);
     }
 });
@@ -17,7 +16,7 @@ var upload = multer({
     storage: uploadStorage,
     fileFilter: function (req, file, cb) {
         var index = file.originalname.lastIndexOf(".js");
-        cb(null, index < 0);
+        cb(null, index >= 0);
     }
 });
 
