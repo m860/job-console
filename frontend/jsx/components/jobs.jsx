@@ -65,6 +65,7 @@ module.exports = React.createClass({
         ws.off("job_monitor", this.$jobChange);
     },
     $jobChange: function (data) {
+        console.log("job change : ",data);
         this.setState({
             jobs: data
         });

@@ -10,6 +10,7 @@ var io = require("socket.io")(http);
 var util = require("util");
 var env = process.env.NODE_ENV || "development";
 var favicon = require('serve-favicon');
+var bodyParser = require('body-parser');
 
 var config = require("./libs/common/config");
 
@@ -19,6 +20,9 @@ app.use(express.static(__dirname + "/public", {
     maxAge: env === "production" ? 0 : 30 * 24 * 3600 * 1000,
     etag: false
 }));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 //favicon
 app.use(favicon(__dirname + '/public/favicon.ico'));

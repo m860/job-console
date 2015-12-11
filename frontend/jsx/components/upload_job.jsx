@@ -5,11 +5,14 @@ var React = require("react");
 var ReactDom = require("react-dom");
 var ReactAddons = require("react-addons");
 var classNames = require("classnames");
+var config = require("config");
+
+
 var Modal = require("bootstrap/modal");
 var ModalBody = require("bootstrap/modal_body");
 var ModalFooter = require("bootstrap/modal_footer");
 var TaskTrigger = require("components/task_trigger");
-var InputFile=require("bootstrap/input_file");
+var InputFile = require("bootstrap/input_file");
 
 var helper = require("helper");
 
@@ -28,7 +31,7 @@ module.exports = React.createClass({
     },
     $submit: function () {
         var fd = helper.cloneObject(this.state);
-        console.log(fd.file);
+        helper.request("post", config.uploadUrl, fd);
     },
     getInitialState: function () {
         return {
@@ -51,8 +54,9 @@ module.exports = React.createClass({
         var fileLink = {
             value: null,
             requestChange: function (newValue) {
-                console.log("newValue:",newValue);
-                this.setState({file:newValue});
+                if (newValue.length > 0) {
+                    this.setState({file: newValue[0]});
+                }
             }.bind(this)
         };
         return (

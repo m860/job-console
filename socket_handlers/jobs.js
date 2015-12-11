@@ -105,13 +105,16 @@ function initJob(jobConfig) {
 //}
 function onNewJob(filePath) {
     console.log("new job ==> ", filePath);
-    var config = requireJobConfig(filePath);
-    config.absolutePath = filePath;
-    var fileName = path.basename(filePath);
-    var index = fileName.indexOf(".");
-    fileName = fileName.substring(0, index);
-    jobs[fileName] = initJob(config);
-    sendAll(messageType.JobMonitor, buildJobsMessage());
+    try {
+        var config = requireJobConfig(filePath);
+        config.absolutePath = filePath;
+        var fileName = path.basename(filePath);
+        var index = fileName.indexOf(".");
+        fileName = fileName.substring(0, index);
+        jobs[fileName] = initJob(config);
+        sendAll(messageType.JobMonitor, buildJobsMessage());
+    }
+    catch(ex){}
 }
 function onChangeJob(filePath) {
     console.log("change job ===> ", filePath);
