@@ -5,9 +5,11 @@
     "jquery": "libs/jquery/dist/jquery",
     "react": "libs/react/react",
     "react-dom": "libs/react/react-dom",
+    "react-addons": "libs/react/react-with-addons",
     "classnames": "libs/classnames/index",
     "socket.io": "../../socket.io/socket.io.js",
     "routie": "libs/routie/dist/routie",
+    "q": "libs/q/q",
     "app": "app"
   },
   "deps": [

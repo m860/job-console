@@ -79,7 +79,7 @@ function initJob(jobConfig) {
         jobConfig.start = function () {
             var beginDate = Date.now();
             jobConfig.status = 1;
-            var promise = jobConfig.callback();
+            var promise = jobConfig.callback(socket);
 
             function done() {
                 console.log(helper.formatTime(Date.now() - beginDate, "execution time : $h:$m:$s"));
@@ -105,13 +105,16 @@ function initJob(jobConfig) {
 //}
 function onNewJob(filePath) {
     console.log("new job ==> ", filePath);
-    var config = requireJobConfig(filePath);
-    config.absolutePath = filePath;
-    var fileName = path.basename(filePath);
-    var index = fileName.indexOf(".");
-    fileName = fileName.substring(0, index);
-    jobs[fileName] = initJob(config);
-    sendAll(messageType.JobMonitor, buildJobsMessage());
+    try {
+        var config = requireJobConfig(filePath);
+        config.absolutePath = filePath;
+        var fileName = path.basename(filePath);
+        var index = fileName.indexOf(".");
+        fileName = fileName.substring(0, index);
+        jobs[fileName] = initJob(config);
+        sendAll(messageType.JobMonitor, buildJobsMessage());
+    }
+    catch(ex){}
 }
 function onChangeJob(filePath) {
     console.log("change job ===> ", filePath);
@@ -183,10 +186,12 @@ watchingJobs();
 module.exports = function (io) {
     io.on("connect", function (currentSocket) {
         socket = currentSocket;
-        currentSocket.emit(messageType.JobMonitor, buildJobsMessage());
         currentSocket.on(messageType.JobDirective, handleJobDirective);
         currentSocket.on("disconnect", function () {
             currentSocket.removeListener(messageType.JobDirective, handleJobDirective);
         });
+        setTimeout(function(){
+            currentSocket.emit(messageType.JobMonitor, buildJobsMessage());
+        },1000);
     });
 };

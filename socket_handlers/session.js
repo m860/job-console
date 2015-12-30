@@ -11,11 +11,15 @@ module.exports = function (io) {
     io.on("connect", function (socket) {
         socket.$id = guid.raw();
         sessionCount++;
-        socket.emit(messageType.SessionChange, {
-            count: sessionCount,
-            id: socket.$id
-        });
-        socket.broadcast.emit(messageType.SessionChange, {count: sessionCount});
+
+        setTimeout(function(){
+            socket.emit(messageType.SessionChange, {
+                count: sessionCount,
+                id: socket.$id
+            });
+            socket.broadcast.emit(messageType.SessionChange, {count: sessionCount});
+        },1000);
+
 
         socket.on("disconnect", function () {
             sessionCount--;

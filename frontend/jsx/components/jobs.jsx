@@ -5,10 +5,11 @@ var React = require("react");
 var ReactDom = require("react-dom");
 var classNames = require("classnames");
 var ws = require("web_socket");
+var messageType = require("enums/message_type");
 
 
 var JobListItem = React.createClass({
-    displayName:"Job",
+    displayName: "Job",
     componentWillReceiveProps: function (props) {
         this.setState({
             data: props.data
@@ -19,6 +20,14 @@ var JobListItem = React.createClass({
             name: method,
             args: [this.state.data.fileName]
         });
+    },
+    $delJob: function () {
+        if(confirm("是否真的要删除?")) {
+            ws.emit(messageType.JobChange, {
+                action: "del",
+                fileName: this.state.data.fileName
+            });
+        }
     },
     propTypes: {
         data: React.PropTypes.object.isRequired
@@ -53,20 +62,24 @@ var JobListItem = React.createClass({
                         className={classNames("btn btn-default",{"hide":this.state.data.role===1 || this.state.data.status===0})}
                         onClick={this.$sendDirective.bind(this,"stop")}><i className={classNames("fa fa-stop")}></i>
                     </button>
+                    &nbsp;<button className={classNames("btn btn-default")} onClick={this.$delJob}><i
+                        className={classNames("fa fa-trash")}></i></button>
                 </td>
             </tr>
         );
     }
 });
 module.exports = React.createClass({
-    displayName:"Jobs",
+    displayName: "Jobs",
     componentWillUnmount: function () {
         ws.off("job_monitor", this.$jobChange);
     },
     $jobChange: function (data) {
+
         this.setState({
             jobs: data
         });
+
     },
     getInitialState: function () {
         ws.on("job_monitor", this.$jobChange);

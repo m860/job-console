@@ -11,10 +11,10 @@ var walk = require("walk");
 
 var requirejsWraper = "define(function(require,exports,module){\n\n<%=contents%>\n\n});";
 
-function compileJSX(stream) {
+function compileJSX(stream, dest) {
     return stream.pipe(babel())
         .pipe(wrap(requirejsWraper))
-        .pipe(gulp.dest(__dirname + "/public/js"));
+        .pipe(gulp.dest(dest || __dirname + "/public/js"));
 }
 function wrapCommonJS(stream, dest) {
     return stream.pipe(wrap(requirejsWraper))
@@ -74,12 +74,14 @@ gulp.task("less", function () {
 
 gulp.task("watching", function (callback) {
 
-    livereload.listen();
+    livereload.listen({
+        port:3009
+    });
 
     nodemon({
         script: 'app.js'
         , ext: 'js'
-        , ignore: ["node_modules/**", "public/**", "views/**"]
+        , ignore: ["node_modules/**", "public/**", "views/**", "gulpfile.js", "frontend/**", "jobs/**"]
         , env: {'NODE_ENV': 'development'}
     });
 
@@ -100,8 +102,14 @@ gulp.task("watching", function (callback) {
     });
 
     //watch jsx
-    gulp.watch(__dirname + "/frontend/**/*.jsx", function (event) {
-        compileJSX(gulp.src(event.path));
+    gulp.watch(__dirname + "/frontend/jsx/**/*.jsx", function (event) {
+
+        var originPath = event.path.replace(/\\/g, "/");
+        var index = originPath.indexOf("jsx/");
+        var last = originPath.lastIndexOf("/");
+        var destPath = __dirname + "/public/js/" + originPath.substring(index + 4, last);
+
+        compileJSX(gulp.src(event.path), destPath);
     });
 
     //watch js

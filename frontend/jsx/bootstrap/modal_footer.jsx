@@ -6,11 +6,14 @@ var React = require("react");
 var ReactDom = require("react-dom");
 var classNames = require("classnames");
 
+
 module.exports = React.createClass({
-    displayName:"PanelBody",
+    displayName: "ModalFooter",
     render: function () {
         return (
-            <div className={classNames("panel-body")}>{this.props.children}</div>
+            <div className={classNames("modal-footer")}>
+                {this.props.children}
+            </div>
         );
     }
 });
