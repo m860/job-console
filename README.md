@@ -1,16 +1,16 @@
 #Installation
 
 ```
-git clone https://github.com/m860/job-console.git
-cd job-console
-npm install && bower install
-gulp
+$ git clone https://github.com/m860/job-console.git
+$ cd job-console
+$ npm install && bower install
+$ gulp
 ```
 Access http://127.0.0.1:3001 in browser
 
 #How to add a job
 
-1. You need to create a  file name is test_job.js and write follow:
+You need to create a  file name is test_job.js and write follow:
 
 ```
 var second = [];
@@ -39,4 +39,4 @@ callback: function () {
 desc:"It's a test job ."
 };
 ```
-2. Click [upload job] button  to upload test_job.js file.
+Click [upload job] button  to upload test_job.js file.
