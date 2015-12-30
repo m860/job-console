@@ -5,4 +5,5 @@ module.exports = {
     SessionChange: "session_change"
     , JobMonitor: "job_monitor"
     , JobDirective: "job_directive"
+    , JobChange: "job_change"
 };

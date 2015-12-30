@@ -5,6 +5,7 @@ var React = require("react");
 var ReactDom = require("react-dom");
 var classNames = require("classnames");
 var ws = require("web_socket");
+var messageType=require("enums/message_type");
 
 
 var JobListItem = React.createClass({
@@ -18,6 +19,12 @@ var JobListItem = React.createClass({
         ws.emit("job_directive", {
             name: method,
             args: [this.state.data.fileName]
+        });
+    },
+    $delJob:function(){
+        ws.emit(messageType.JobChange,{
+            action:"del",
+            fileName:this.state.data.fileName
         });
     },
     propTypes: {
@@ -53,7 +60,7 @@ var JobListItem = React.createClass({
                         className={classNames("btn btn-default",{"hide":this.state.data.role===1 || this.state.data.status===0})}
                         onClick={this.$sendDirective.bind(this,"stop")}><i className={classNames("fa fa-stop")}></i>
                     </button>
-                    <button className={classNames("btn btn-default")}><i className={classNames("fa fa-trash")}></i></button>
+                    <button className={classNames("btn btn-default")} onClick={this.$delJob}><i className={classNames("fa fa-trash")}></i></button>
                 </td>
             </tr>
         );
@@ -65,7 +72,6 @@ module.exports = React.createClass({
         ws.off("job_monitor", this.$jobChange);
     },
     $jobChange: function (data) {
-        console.log("job change : ",data);
         this.setState({
             jobs: data
         });

@@ -40,5 +40,5 @@ for (var handler in ioHandlers) {
 }
 //start
 http.listen(config.port, function () {
-    console.log("please access http://127.0.0.1:" + config.port + "in browser");
+    console.log("please access http://127.0.0.1:" + config.port + " in browser");
 });

@@ -11,7 +11,7 @@ var PanelBody = require("bootstrap/panel_body");
 var Jobs = require("components/jobs");
 
 var helper = require("helper");
-var UploadJob = require("components/upload_job");
+var LightUploadJob = require("components/light_upload_job");
 
 module.exports = React.createClass({
     displayName: "JobsPanel",
@@ -46,7 +46,7 @@ module.exports = React.createClass({
                         <Jobs/>
                     </PanelBody>
                 </Panel>
-                <UploadJob ref="uploadJob"/>
+                <LightUploadJob ref="uploadJob"/>
             </section>
         );
     }
